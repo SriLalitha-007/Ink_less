@@ -7,8 +7,8 @@ authRouter.post("/api/signup",async(req, res)=>{
     try{
        const {name, email, profilePic}= req.body;
         //email already exists?
-       let user = await User.findOne({email: email});
-       
+       let user = await User.findOne({ email});
+       console.log({name, email, profilePic});
        if(!user){
         user= new User({
             email,

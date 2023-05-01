@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:html';
 
+import 'package:flutter_googledocs_clone/models/error_model.dart';
 import 'package:flutter_googledocs_clone/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -8,7 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_googledocs_clone/constants.dart';
 import 'package:http/http.dart';
 
-final AuthRepositaryProvider = Provider(
+final authRepositaryProvider = Provider(
   (ref) => AuthRepositary(
     googleSignIn: GoogleSignIn(),
     client: Client(),
@@ -23,7 +24,11 @@ class AuthRepositary {
       : _googleSignIn = googleSignIn,
         _client = client;
 
-  void signInWithGoogle() async {
+  Future<ErrorModel> signInWithGoogle() async {
+    ErrorModel error = ErrorModel(
+      error: 'Some unexpected error occured.',
+      data: null,
+    );
     try {
       final user = await _googleSignIn.signIn();
       if (user != null) {
@@ -37,19 +42,23 @@ class AuthRepositary {
         var res = await _client.post(Uri.parse('$host/api/signup'),
             body: userAcc.toJson(),
             headers: {
-              'Content-Type': 'application/json; charset=UTF-s',
+              'Content-Type': 'application/json; charset=UTF-8',
             });
-
         switch (res.statusCode) {
           case 200:
+            print('IN CASE 200');
             final newUser = userAcc.copyWith(
               uid: jsonDecode(res.body)['user']['_id'],
             );
+            error = ErrorModel(error: null, data: newUser);
             break;
+          default:
+            throw 'some error occurdkfjasdjasdjasdjasdh';
         }
       }
     } catch (e) {
-      print(e);
+      error = ErrorModel(error: e.toString(), data: null);
     }
+    return error;
   }
 }
