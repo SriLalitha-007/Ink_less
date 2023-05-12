@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_googledocs_clone/colors.dart';
 import 'package:flutter_googledocs_clone/repositary/auth_repositary.dart';
