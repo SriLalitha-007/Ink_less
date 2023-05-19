@@ -25,3 +25,11 @@ To Start API Server:
 
 To start flutter web server: 
 1. run -> flutter run -d chrome --web-port 3000
+
+To add in github
+1. go to project folder
+2. open terminal end enter below commands
+2. enter -> git add . 
+3. enter -> git commit -m "commit msg"
+4. enter -> git push
+

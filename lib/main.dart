@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_googledocs_clone/repositary/auth_repositary.dart';
+import 'package:flutter_googledocs_clone/router.dart';
 import 'package:flutter_googledocs_clone/screens/home_screen.dart';
 import 'package:flutter_googledocs_clone/screens/login_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 import 'models/error_model.dart';
 
 void main() {
@@ -38,13 +40,20 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userProvider);
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: user == null ? const LoginScreen() : const HomeScreen(),
+      routerDelegate: RoutemasterDelegate(routesBuilder: (context) {
+        final user = ref.watch(userProvider);
+        if (user != null && user.token.isNotEmpty) {
+          return loggedInRoute;
+        }
+        return loggedOutRoute;
+      }),
+      routeInformationParser: const RoutemasterParser(),
     );
   }
 }

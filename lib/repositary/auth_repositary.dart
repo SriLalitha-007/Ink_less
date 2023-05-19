@@ -106,4 +106,9 @@ class AuthRepositary {
     }
     return error;
   }
+
+  void signOut() async {
+    await _googleSignIn.signOut();
+    _localStorageRepositary.setToken('');
+  }
 }
