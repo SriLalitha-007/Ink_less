@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const auth = async (req, res, next) => {
     try{
         const token =req.header("x-auth-token");
-        console.log(token);
+        // console.log(token);
         if (!token) //401 -> no autharization  400 -> bad request
           return res.status(401).json({msg: 'No auth token, access denied.' });
 

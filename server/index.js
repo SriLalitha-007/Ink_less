@@ -3,6 +3,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require("cors");
+const http = require('http');
+
 const authRouter = require("./routes/auth");
 const documentRouter = require("./routes/document");
 
@@ -10,6 +12,10 @@ const documentRouter = require("./routes/document");
 const PORT = process.env.PORT | 3001;
 
 const app = express();
+var server = http.createServer(app);
+var io = require('socket.io')(server);
+
+
 
 app.use(cors({
     origin: '*',
@@ -33,6 +39,21 @@ mongoose.connect(DB).then(() => {
 //async -> await
 // .then((data)) => print(data )
 
-app.listen(PORT, "0.0.0.0", function () {
+io.on("connection", (socket) => {
+    console.log('123456789');
+    socket.on("join", (documentId) =>{
+        socket.join(documentId);
+        console.log("joined!");
+    });
+});
+
+// io.on("error", (socket) => {
+//     socket.on("join", (documentId) =>{
+//         socket.join(documentId);
+//         console.log("joined!");
+//     });
+// });
+
+server.listen(PORT, "0.0.0.0", function () {
     console.log(`connected at port ${PORT}`);
 });

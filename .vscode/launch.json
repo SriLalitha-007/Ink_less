@@ -7,7 +7,8 @@
         {
             "name": "flutter_googledocs_clone",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": ["-d", "chrome","--web-port", "3000"],
         },
         {
             "name": "flutter_googledocs_clone (profile mode)",
