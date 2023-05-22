@@ -7,6 +7,7 @@ const http = require('http');
 
 const authRouter = require("./routes/auth");
 const documentRouter = require("./routes/document");
+const Document = require("./models/document");
 
 
 const PORT = process.env.PORT | 3001;
@@ -42,10 +43,28 @@ mongoose.connect(DB).then(() => {
 io.on("connection", (socket) => {
     console.log('123456789');
     socket.on("join", (documentId) =>{
+        
         socket.join(documentId);
         console.log("joined!");
     });
+
+    socket.on('typing', (data) => {
+        socket.broadcast.to(data.room).emit('changes', data);
+    });
+
+    socket.on('save',(data) => {
+        saveData(data);
+    });
+
 });
+
+const saveData = async (data) => {
+    let document = await Document.findById(data.room);
+    document.content = data.delta ;
+    document = await document.save();
+
+};
+
 
 // io.on("error", (socket) => {
 //     socket.on("join", (documentId) =>{

@@ -186,10 +186,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_quill
-      sha256: f75d564f7af1f6377e52a46e1a520efe866600e734d0da60d64f6fb1eda94f97
+      sha256: "4c34108074037d078822114b1b99f4c92d0864c4d43021ee56c56b3eec463b29"
       url: "https://pub.dev"
     source: hosted
-    version: "7.1.1"
+    version: "7.1.6"
   flutter_riverpod:
     dependency: "direct main"
     description:

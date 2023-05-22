@@ -7,8 +7,19 @@ class SocketRepositary {
   Socket get socketClient => _socketClient;
 
   void joinRoom(String documentId) {
-    print('asdasdasdasdasdasdasdasd');
     _socketClient.emit('join', documentId);
-    print(_socketClient.connected);
+    //print(_socketClient.connected);
+  }
+
+  void typing(Map<String, dynamic> data) {
+    _socketClient.emit('typing', data);
+  }
+
+  void autoSave(Map<String, dynamic> data) {
+    _socketClient.emit('save', data);
+  }
+
+  void changeListener(Function(Map<String, dynamic>) func) {
+    _socketClient.on('changes', (data) => func(data));
   }
 }
